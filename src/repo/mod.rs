@@ -139,18 +139,6 @@ pub fn get_repo_from_config(config_dir: &String) -> Vec<Repo> {
     }
 }
 
-pub fn create_default_config(path: &String) {
-    let default_config = r#"
-##[sys-compare]
-##path = "https://github.com/helloimalemur/sys-compare"
-##target_branch = "master"
-
-"#;
-    if let Ok(mut file) = OpenOptions::new().create(true).append(true).open(path) {
-        let _ = file.write_all(default_config.as_ref());
-    }
-}
-
 pub fn repo_work_dir(repo: &Repos) -> String {
     let rand = rand::random::<u64>();
     let cur_user = whoami::username().unwrap();

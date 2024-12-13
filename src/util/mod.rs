@@ -1,4 +1,6 @@
 use std::fs;
+use std::fs::OpenOptions;
+use std::io::Write;
 use std::path::Path;
 
 pub mod service;
@@ -27,4 +29,16 @@ pub fn default_config_path() -> String {
         let _ = fs::create_dir_all(Path::new(&out));
     }
     out
+}
+
+pub fn create_default_config(path: &String) {
+    let default_config = r#"
+##[sys-compare]
+##path = "https://github.com/helloimalemur/sys-compare"
+##target_branch = "master"
+
+"#;
+    if let Ok(mut file) = OpenOptions::new().create(true).append(true).open(path) {
+        let _ = file.write_all(default_config.as_ref());
+    }
 }
