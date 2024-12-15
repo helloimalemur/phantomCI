@@ -19,12 +19,15 @@ pub struct Repo {
     pub last_sha: Option<String>,
     pub target_branch: String,
     pub triggered: bool,
+    pub chroot: bool,
 }
 
 #[derive(Debug, Clone, serde::Deserialize, serde::Serialize)]
-pub struct Repos {
+pub struct RepoConfig {
     pub path: String,
     pub target_branch: Option<String>,
+    pub chroot: Option<bool>,
+    pub caching: Option<bool>
 }
 
 impl Default for Repo {
@@ -37,6 +40,7 @@ impl Default for Repo {
             last_sha: None,
             target_branch: "master".to_string(),
             triggered: false,
+            chroot: false,
         }
     }
 }
@@ -50,6 +54,7 @@ impl Repo {
         last_sha: Option<String>,
         target_branch: String,
         triggered: bool,
+        chroot: bool,
     ) -> Repo {
         Repo {
             name,
@@ -59,6 +64,7 @@ impl Repo {
             last_sha,
             target_branch,
             triggered,
+            chroot,
         }
     }
 
@@ -113,7 +119,7 @@ pub fn get_repo_from_config(config_dir: &String) -> Vec<Repo> {
         .add_source(config::File::with_name(repo_config.as_str()))
         .build()
     {
-        if let Ok(map) = config_file.try_deserialize::<HashMap<String, Repos>>() {
+        if let Ok(map) = config_file.try_deserialize::<HashMap<String, RepoConfig>>() {
             map.iter().for_each(|r| {
                 // println!("{:?}", r);
                 repos.push(Repo {
@@ -124,6 +130,7 @@ pub fn get_repo_from_config(config_dir: &String) -> Vec<Repo> {
                     last_sha: None,
                     target_branch: r.1.to_owned().target_branch.unwrap_or("master".to_string()),
                     triggered: false,
+                    chroot: r.1.chroot.unwrap_or_default(),
                 })
             });
             if repos.is_empty() {
@@ -151,7 +158,7 @@ pub fn create_default_config(path: &String) {
     }
 }
 
-pub fn repo_work_dir(repo: &Repos) -> String {
+pub fn repo_work_dir(repo: &RepoConfig) -> String {
     let rand = rand::random::<u64>();
     let cur_user = whoami::username().unwrap();
     if cur_user.contains("root") {

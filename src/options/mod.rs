@@ -38,6 +38,7 @@ pub fn process_arguments(_app_state: &mut AppState, config_dir: &String) {
                     None,
                     "master".to_string(),
                     false,
+                    false
                 ));
             }
         }
