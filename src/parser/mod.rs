@@ -56,17 +56,17 @@ struct WorkflowCommand {
 }
 
 fn get_command_from_config(path: String) -> HashMap<String, WorkflowCommand> {
-    let workflow_commands = HashMap::<String, WorkflowCommand>::new();
+    let empty = HashMap::<String, WorkflowCommand>::new();
     if let Ok(config_file) = Config::builder()
         .add_source(config::File::with_name(&path))
         .build()
     {
-        if let Ok(map) = config_file.try_deserialize::<HashMap<String, WorkflowCommand>>() {
-            map
-        } else {
+        if let Ok(workflow_commands) = config_file.try_deserialize::<HashMap<String, WorkflowCommand>>() {
             workflow_commands
+        } else {
+            empty
         }
     } else {
-        workflow_commands
+        empty
     }
 }

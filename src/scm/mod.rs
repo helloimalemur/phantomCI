@@ -17,7 +17,7 @@ pub fn fetch_latest_sha(repo: &Repo) -> Option<String> {
         .arg("rev-parse")
         .arg("HEAD")
         .output();
-    // println!("{:?}", output);
+
     match output {
         Ok(output) if output.status.success() => {
             Some(String::from_utf8_lossy(&output.stdout).trim().to_string())
