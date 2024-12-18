@@ -66,7 +66,7 @@ mod tests {
     use std::env;
 
     #[test]
-    async fn send_discord_webhook() {
+    fn send_discord_webhook() {
         if let Ok(wh_url) = env::var("DISCORD_WEBHOOK_URL") {
             let webhook = Webhook::new(WebhookConfig::new(
                 "test webhook",
@@ -74,7 +74,8 @@ mod tests {
                 WebhookType::Discord,
                 "hello world",
             ));
-            webhook.send().await;
+            let rt = tokio::runtime::Runtime::new();
+            rt.unwrap().block_on(webhook.send());
         }
     }
 }
