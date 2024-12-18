@@ -45,13 +45,20 @@ pub fn create_default_config(path: &String) {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
     use std::path::Path;
-    use crate::util::default_config_path;
+    use crate::util::{default_config_path, default_repo_work_path};
 
     #[test]
     fn test_default_config_path() {
         let path = default_config_path();
         assert!(Path::new(&path).exists())
+    }
+    #[test]
+    fn test_default_repo_config_path() {
+        let path = default_repo_work_path("test_repo".to_string());
+        assert!(Path::new(&path).exists());
+        assert!(fs::remove_dir(path).is_ok())
     }
 
 }
