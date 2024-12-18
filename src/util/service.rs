@@ -38,5 +38,3 @@ pub fn configure_systemd() {
 
     println!("\nservice installed\nplease run:\nsystemctl daemon-reload\nsystemctl enable phantom_ci\nsystemctl start phantom_ci");
 }
-
-

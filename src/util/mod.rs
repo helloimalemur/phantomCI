@@ -45,9 +45,9 @@ pub fn create_default_config(path: &String) {
 
 #[cfg(test)]
 mod tests {
+    use crate::util::{default_config_path, default_repo_work_path};
     use std::fs;
     use std::path::Path;
-    use crate::util::{default_config_path, default_repo_work_path};
 
     #[test]
     fn test_default_config_path() {
@@ -60,5 +60,4 @@ mod tests {
         assert!(Path::new(&path).exists());
         assert!(fs::remove_dir(path).is_ok())
     }
-
 }

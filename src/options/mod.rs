@@ -1,7 +1,7 @@
 use crate::app::AppState;
 use crate::repo::{write_repo_to_config, Repo};
-use crate::util::{create_default_config, default_repo_work_path};
 use crate::util::service::configure_systemd;
+use crate::util::{create_default_config, default_repo_work_path};
 use clap::{Parser, Subcommand};
 use std::path::Path;
 use std::process::exit;

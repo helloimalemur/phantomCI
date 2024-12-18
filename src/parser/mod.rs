@@ -61,7 +61,9 @@ fn get_command_from_config(path: String) -> HashMap<String, WorkflowCommand> {
         .add_source(config::File::with_name(&path))
         .build()
     {
-        if let Ok(workflow_commands) = config_file.try_deserialize::<HashMap<String, WorkflowCommand>>() {
+        if let Ok(workflow_commands) =
+            config_file.try_deserialize::<HashMap<String, WorkflowCommand>>()
+        {
             workflow_commands
         } else {
             empty
